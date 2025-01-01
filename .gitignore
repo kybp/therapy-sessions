@@ -2,3 +2,4 @@ node_modules/
 build/
 *.sqlite3
 __pycache__/
+.env

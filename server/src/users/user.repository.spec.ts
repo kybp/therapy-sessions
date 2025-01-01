@@ -17,7 +17,12 @@ vi.mock('bcrypt', () => ({
 
 describe('UserRepository', () => {
   beforeEach(() => {
-    user = new User({ id: 1, username: 'testuser', password: 'password123' }),
+    user = new User({
+      id: 1,
+      username: 'testuser',
+      password: 'password123',
+    })
+
     User.validateCreateAttrs = vi.fn().mockResolvedValueOnce(undefined)
 
     knex = {

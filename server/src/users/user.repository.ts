@@ -7,14 +7,10 @@ import bcrypt from 'bcrypt'
 export default class UserRepository {
   constructor(@inject('KnexInstance') private readonly knex: Knex) {}
 
-  private async hashPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, 10)
-  }
-
   async create(attrs: { username: string; password: string }): Promise<User> {
     const insertAttrs = {
       username: attrs.username,
-      password: await this.hashPassword(attrs.password),
+      password: await User.hashPassword(attrs.password),
     }
 
     User.validateCreateAttrs(insertAttrs)
@@ -33,6 +29,6 @@ export default class UserRepository {
       .table('users')
       .where('username', username)
       .first()
-    return user || null
+    return user ? new User(user) : null
   }
 }

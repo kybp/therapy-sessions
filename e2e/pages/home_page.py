@@ -1,5 +1,7 @@
 from faker import Faker
 from playwright.sync_api import Page
+from .register_page import RegisterPage
+from .sign_in_page import SignInPage
 
 fake = Faker()
 
@@ -10,26 +12,17 @@ class HomePage():
         self.page.goto('http://localhost:3000')
 
     @property
-    def username_input(self):
-        return self.page.get_by_test_id('username-input')
+    def register_link(self):
+        return self.page.get_by_test_id('register-link')
 
     @property
-    def password_input(self):
-        return self.page.get_by_test_id('password-input')
-
-    @property
-    def submit_button(self):
-        return self.page.get_by_role("button", name="Submit")
+    def sign_in_link(self):
+        return self.page.get_by_test_id('sign-in-link')
 
     def register(self):
-        username = fake.user_name()
-        password = 'password123'
+        self.register_link.click()
+        return RegisterPage(self.page).register()
 
-        self.username_input.fill(username)
-        self.password_input.fill(password)
-        self.submit_button.click()
-
-        return username, password
-
-    def sign_in(self, username, password):
-        return
+    def sign_in(self):
+        self.sign_in_link.click()
+        return SignInPage(self.page).sign_in()

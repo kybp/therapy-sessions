@@ -12,5 +12,5 @@ def test_registering(page: Page):
 def test_sign_in(page: Page):
     home_page = HomePage(page)
     expect(page).to_have_title('Therapy Sessions')
-    home_page.sign_in('username', 'password')
+    home_page.sign_in()
     expect(page).to_have_title(re.compile(r'.*Dashboard'))

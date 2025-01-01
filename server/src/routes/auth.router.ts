@@ -8,4 +8,6 @@ const authController = container.resolve(AuthController)
 
 router.post('/register', authController.actionRegister.bind(authController))
 
+router.post('/sign-in', authController.actionSignIn.bind(authController))
+
 export default router

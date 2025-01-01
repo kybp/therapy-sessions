@@ -21,19 +21,22 @@ export default class User {
   }
 
   static validateCreateAttrs(attrs: CreateUserAttributes) {
+    const errors: Record<string, string[]> = {}
     if (!attrs.username) {
-      throw new Error('username is required')
+      errors.username = ['username is required']
     }
 
     if (!attrs.password) {
-      throw new Error('password is required')
+      errors.password = ['password is required']
+    } else if (attrs.password.length < 8) {
+      errors.password = ['password must be at least 8 characters']
     }
+
+    if (Object.keys(errors).length > 0) throw errors
   }
 
-  static async hashPassword(user: User) {
-    if (user.password) {
-      user.password = await bcrypt.hash(user.password, 10)
-    }
+  static async hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, 10)
   }
 
   async checkPassword(password: string): Promise<boolean> {
