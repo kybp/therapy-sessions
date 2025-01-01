@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export type RegisterParams = {
   username: string
   password: string
+  type: 'client' | 'therapist'
 }
 
 export type SignInParams = {
@@ -22,6 +23,8 @@ export const useAuthStore = defineStore('auth', () => {
   /** The currently signed-in user, or `null` if we're signed out. */
   const account = ref<Account | null>(cookie.value || null)
 
+  const signInErrors = ref<Record<string, string[]>>({})
+
   const signIn = async ({ username, password }: SignInParams) => {
     const response = await useFetch<Account | null>('/api/auth/sign-in/', {
       method: 'POST',
@@ -29,17 +32,25 @@ export const useAuthStore = defineStore('auth', () => {
     })
 
     if (response.data.value) setAccount(response.data.value)
+    if (response.error.value) {
+      signInErrors.value = response.error.value.data.data
+    }
 
     return response
   }
 
-  const register = async ({ username, password }: RegisterParams) => {
+  const registerErrors = ref<Record<string, string[]>>({})
+
+  const register = async ({ username, password, type }: RegisterParams) => {
     const response = await useFetch<Account | null>('/api/auth/register/', {
       method: 'POST',
-      body: { username, password },
+      body: { username, password, type },
     })
 
     if (response.data.value) setAccount(response.data.value)
+    if (response.error.value) {
+      registerErrors.value = response.error.value.data.data
+    }
 
     return response
   }

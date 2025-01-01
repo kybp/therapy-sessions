@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 export type CreateUserAttributes = {
   username: string
   password: string
+  type: 'client' | 'therapist'
 }
 
 export type UserAttributes = CreateUserAttributes & {
@@ -13,11 +14,13 @@ export default class User {
   id: number
   password: string
   username: string
+  type: 'client' | 'therapist'
 
   constructor(attrs: UserAttributes) {
     this.id = attrs.id
     this.password = attrs.password
     this.username = attrs.username
+    this.type = attrs.type
   }
 
   static validateCreateAttrs(attrs: CreateUserAttributes) {
@@ -30,6 +33,10 @@ export default class User {
       errors.password = ['password is required']
     } else if (attrs.password.length < 8) {
       errors.password = ['password must be at least 8 characters']
+    }
+
+    if (!['client', 'therapist'].includes(attrs.type)) {
+      errors.type = ['type must be "client" or "therapist"']
     }
 
     if (Object.keys(errors).length > 0) throw errors

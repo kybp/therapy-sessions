@@ -19,9 +19,9 @@ class HomePage():
     def sign_in_link(self):
         return self.page.get_by_test_id('sign-in-link')
 
-    def register(self):
+    def register(self, type):
         self.register_link.click()
-        return RegisterPage(self.page).register()
+        return RegisterPage(self.page).register(type=type)
 
     def sign_in(self):
         self.sign_in_link.click()

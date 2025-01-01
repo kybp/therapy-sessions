@@ -1,16 +1,17 @@
 import { inject, injectable } from 'tsyringe'
 import { type Knex } from 'knex'
-import User from './user.model'
+import User, { CreateUserAttributes } from './user.model'
 import bcrypt from 'bcrypt'
 
 @injectable()
 export default class UserRepository {
   constructor(@inject('KnexInstance') private readonly knex: Knex) {}
 
-  async create(attrs: { username: string; password: string }): Promise<User> {
+  async create(attrs: CreateUserAttributes): Promise<User> {
     const insertAttrs = {
       username: attrs.username,
       password: await User.hashPassword(attrs.password),
+      type: attrs.type,
     }
 
     User.validateCreateAttrs(insertAttrs)

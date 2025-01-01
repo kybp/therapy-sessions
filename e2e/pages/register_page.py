@@ -17,15 +17,20 @@ class RegisterPage():
         return self.page.get_by_test_id('password-input')
 
     @property
+    def type_input(self):
+        return self.page.get_by_test_id('type-input')
+
+    @property
     def submit_button(self):
         return self.page.get_by_role("button", name="Register")
 
-    def register(self):
+    def register(self, type):
         username = fake.user_name()
         password = 'password123'
 
         self.username_input.fill(username)
         self.password_input.fill(password)
+        self.type_input.select_option(type)
         self.submit_button.click()
 
         return username, password

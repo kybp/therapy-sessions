@@ -7,6 +7,7 @@ const authStore = useAuthStore()
 
 const username = ref('')
 const password = ref('')
+const type = ref('client')
 
 const usernameError = computed(() => {
   if (!username.value.length) return 'Username cannot be empty'
@@ -17,7 +18,11 @@ const passwordError = computed(() => {
 })
 
 const submitForm = async () => {
-  const params = { username: username.value, password: password.value }
+  const params = {
+    username: username.value,
+    password: password.value,
+    type: type.value,
+  }
   await authStore.register(params)
   navigateTo('/dashboard')
 }
@@ -43,6 +48,12 @@ const submitForm = async () => {
         v-model="password"
       />
       <p v-if="passwordError" class="error">{{ passwordError }}</p>
+
+      <label for="type">Type:</label>
+      <select data-testid="type-input" id="type" v-model="type">
+        <option>client</option>
+        <option>therapist</option>
+      </select>
 
       <button type="submit">Register</button>
     </div>

@@ -17,12 +17,16 @@ export default class AuthController {
   }
 
   async actionRegister(req: Request, res: Response) {
-    const { username, password } = req.body
-    const user = await this.userRepo.create({ username, password })
-    const token = this.generateTokenForUser(user)
+    try {
+      const { username, password, type } = req.body
+      const user = await this.userRepo.create({ username, password, type })
+      const token = this.generateTokenForUser(user)
 
-    // TODO: Make this view a class
-    res.json({ id: user.id, username: user.username, token })
+      // TODO: Make this view a class
+      res.json({ id: user.id, username: user.username, token })
+    } catch (error) {
+      res.status(422).json(error)
+    }
   }
 
   async actionSignIn(req: Request, res: Response) {
