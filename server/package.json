@@ -6,7 +6,7 @@
     "migrate:up": "npm run knex -- migrate:up",
     "migrate:make": "npm run knex -- migrate:make -x ts",
     "knex": "tsx ./node_modules/knex/bin/cli.js",
-    "test": "rm -rf build && vitest --run"
+    "test": "vitest --run"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
