@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import bcrypt from 'bcrypt'
 import { type Knex } from 'knex'
 import { container } from 'tsyringe'
@@ -21,6 +20,7 @@ describe('UserRepository', () => {
       id: 1,
       username: 'testuser',
       password: 'password123',
+      type: 'client',
     })
 
     User.validateCreateAttrs = vi.fn().mockResolvedValueOnce(undefined)
@@ -49,13 +49,16 @@ describe('UserRepository', () => {
       const passwordHash = 'some password hash'
       vi.mocked(bcrypt.hash).mockResolvedValueOnce(passwordHash as any)
 
-      await userRepository.create({
+      const attrs = {
         username: user.username,
         password: user.password,
-      })
+        type: user.type,
+      }
+
+      await userRepository.create(attrs)
 
       expect(knex.insert).toHaveBeenCalledWith({
-        username: user.username,
+        ...attrs,
         password: passwordHash,
       })
     })

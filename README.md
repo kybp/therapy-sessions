@@ -23,4 +23,6 @@ pip install -r requirements.txt
 playwright install --with-deps
 ```
 
-Then you can run the tests with `npm run e2e`.
+Then you can run the tests with `npm run e2e`. The e2e specs sometimes
+fail the first time they're run, unfortunately, but they generally
+pass the second.

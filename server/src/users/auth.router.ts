@@ -6,8 +6,7 @@ const router = Router()
 
 const authController = container.resolve(AuthController)
 
-router.post('/register', authController.actionRegister.bind(authController))
-
-router.post('/sign-in', authController.actionSignIn.bind(authController))
+router.post('/register', authController.register.bind(authController))
+router.post('/sign-in', authController.signIn.bind(authController))
 
 export default router

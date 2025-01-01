@@ -25,6 +25,11 @@ export default class UserRepository {
     return user
   }
 
+  async findById(id: number): Promise<User | null> {
+    const user = await this.knex.table('users').where('id', id).first()
+    return user ? new User(user) : null
+  }
+
   async findByUsername(username: string): Promise<User | null> {
     const user = await this.knex
       .table('users')
