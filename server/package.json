@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "migrate:up": "npm run knex -- migrate:up",
+    "migrate:latest": "npm run knex -- migrate:latest",
     "migrate:make": "npm run knex -- migrate:make -x ts",
     "knex": "tsx ./node_modules/knex/bin/cli.js",
     "test": "vitest --run"
